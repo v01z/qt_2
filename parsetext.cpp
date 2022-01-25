@@ -1,4 +1,5 @@
 #include "parsetext.h"
+#include <QDebug>
 
 #define MIN(a, b) (a < b) ? a : b
 
@@ -37,15 +38,24 @@ bool ParseText::change(QString istr)
            )
       {
           preText.insert(preText.length(), &arStr[ppos], fnd); // копируем текст до примера
+
+          //debug
+          qDebug() << preText;
+          //end of debug
+
           lastp = pos;
           pos = fnd;
-          int r = istr.indexOf('=', fnd);//если есть равенство, то пример завершен
+//          int r = istr.indexOf('=', fnd);//если есть равенство, то пример завершен
+          int r = istr.indexOf('@', fnd);//если есть '@'
+
           int space = istr.indexOf(' ', fnd);
           if ((r < space || space == -1) && r != -1) // проверяем, что равно для текущего примера, а не следующего
           {
-              QString exampl = "";
-              exampl.insert(0, &arStr[fnd + 2], r - fnd - 1);
-              QString rez = calc(exampl);
+           //   QString exampl = "";
+          //    exampl.insert(0, &arStr[fnd + 2], r - fnd - 1);
+             // QString rez = calc(exampl);
+              QString rez = "RUB";
+
               preText += rez;
               pos = r + 1;
               chg = true;
@@ -91,7 +101,7 @@ bool ParseText::change(QString istr)
           {
               posoper[amount_oper] = i;
               logicRes[amount_oper].a = number.toInt();
-              logicRes[amount_oper].idOpera = operations.indexOf(example[i]); // запоминаем код арифмитической операции
+              logicRes[amount_oper].idOpera = operations.indexOf(example[i]); // запоминаем код арифмeтической операции
               if (logicRes[amount_oper].idOpera > 1) muldiv = true;
               number.clear();
               if (!(amount_oper - 1) & 0x80000000) // проверяем, что есть предыдущая операция
