@@ -12,6 +12,40 @@ ParseText::ParseText()
 }
 */
 
+//from ya project
+/*
+const std::pair <const std::string, const std::string> c_arr [] = {
+        {"auto", KCYN },
+        { "int", KCYN },
+        { "char", KCYN },
+        { "float", KCYN },
+        { "void", KCYN },
+        { "bool", KCYN },
+        { "string", KCYN },
+        { "for", KGRN },
+        { "std", KMAG },
+        { "boost", KMAG }
+};
+*/
+/*
+const std::string colorize_it(const std::string &str){
+    std::string ret_val;
+
+    ret_val = str;
+//    boost::algorithm::replace_all_regex(s, rgx, r);
+
+//    boost::algorithm::replace_all(ret_val, "std",
+//KMAG + "std" + KNRM);
+    for (size_t i{}; i < 10; ++i) // 10 - size of c_arr
+        {
+        boost::algorithm::replace_all(ret_val, c_arr[i].first,
+            c_arr[i].second + c_arr[i].first + KNRM);
+        }
+
+    return ret_val;
+}
+*/
+
 ParseText::ParseText(): text{""}, preText{""}, pos{} {}
 
 bool ParseText::change(QString istr)
