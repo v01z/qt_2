@@ -2,6 +2,7 @@
 #define TASK1_H
 
 #include <QDialog>
+#include "parsetext.h"
 
 namespace Ui {
 class task1;
@@ -17,9 +18,11 @@ public:
 
 private slots:
     void on_btnClose_clicked();
+    void on_plainTextEdit_textChanged();
 
 private:
     Ui::task1 *ui;
+    ParseText *parseText;
 };
 
 #endif // TASK1_H

@@ -18,13 +18,23 @@
     <rect>
      <x>20</x>
      <y>10</y>
-     <width>451</width>
+     <width>461</width>
      <height>421</height>
     </rect>
    </property>
    <property name="title">
     <string>front-end for task 1</string>
    </property>
+   <widget class="QPlainTextEdit" name="plainTextEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>421</width>
+      <height>361</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="btnClose">
    <property name="geometry">

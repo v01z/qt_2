@@ -11,12 +11,14 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    parsetext.cpp \
     task1.cpp \
     task2.cpp \
     task3.cpp
 
 HEADERS += \
     mainwindow.h \
+    parsetext.h \
     task1.h \
     task2.h \
     task3.h
