@@ -3,7 +3,7 @@
 
 #include <QString>
 
-const std::pair <const std::string, const std::string> specSymbols [] =
+const std::pair <const QString, const QString> specSymbols [] =
 {
     { "#@RUB@", "₽" },
     { "#@EUR@", "€" },
@@ -16,13 +16,9 @@ class ParseText
 public:
     ParseText();
     bool findAndReplace(QString);
-    bool change(QString);
-    QString calc(QString);
-    QString getText();
+    QString getText()const;
 private:
-    QString text;//Последний текст
-    QString preText; //Текст с правкой примера
-    qint32 pos;//позиция указателя поиска
+    QString text;
 
 };
 

@@ -1,209 +1,29 @@
 #include "parsetext.h"
-#include <QDebug>
-#include <boost/algorithm/string/replace.hpp>
 
-#define MIN(a, b) (a < b) ? a : b
-
-/*
-ParseText::ParseText()
-{
-   text = "";
-   preText = "";
-   pos = 0;
-}
-*/
-
-//from ya project
-/*
-const std::pair <const std::string, const std::string> c_arr [] = {
-        {"auto", KCYN },
-        { "int", KCYN },
-        { "char", KCYN },
-        { "float", KCYN },
-        { "void", KCYN },
-        { "bool", KCYN },
-        { "string", KCYN },
-        { "for", KGRN },
-        { "std", KMAG },
-        { "boost", KMAG }
-};
-*/
-/*
-const std::string colorize_it(const std::string &str){
-    std::string ret_val;
-
-    ret_val = str;
-//    boost::algorithm::replace_all_regex(s, rgx, r);
-
-//    boost::algorithm::replace_all(ret_val, "std",
-//KMAG + "std" + KNRM);
-    for (size_t i{}; i < 10; ++i) // 10 - size of c_arr
-        {
-        boost::algorithm::replace_all(ret_val, c_arr[i].first,
-            c_arr[i].second + c_arr[i].first + KNRM);
-        }
-
-    return ret_val;
-}
-*/
-
-ParseText::ParseText(): text{""}, preText{""}, pos{} {}
+ParseText::ParseText(): text{ "" } {}
 
 bool ParseText::findAndReplace(QString istr)
 {
     bool ret_val { false };
-    std::string tempStr { istr.toStdString() };
-    //std::string tempStr { qPrintable(istr) };
-
-    if (tempStr.find("#@") != std::string::npos)
-        ret_val = true;
 
     for (size_t i{}; i < 4; ++i) // 4 - size of specSymbols[]
         {
-            boost::algorithm::replace_all(tempStr, specSymbols[i].first,
-                specSymbols[i].second);
+        int j {};
+
+        while ((j = istr.indexOf(specSymbols[i].first)) != -1)
+            {
+                ret_val = true;
+                istr.replace(j, specSymbols[i].first.length(),
+                    specSymbols[i].second);
+            }
         }
 
-    preText = QString::fromStdString(tempStr);
-    qDebug() << preText;
+    text = std::move(istr); //We dont need extra copy
 
     return ret_val;
-
 }
 
-bool ParseText::change(QString istr)
-{
-   qint32 length = MIN(MIN(text.length(), istr.length()), pos);
-   preText = "";
-   for (qint32 i = 0; i < length; i++)
+QString ParseText::getText() const
    {
-       if (text[i] != istr[i])
-       {
-           pos = i;
-           break;
-       }
-   }
-   const QChar *arStr = istr.constData();
-   qint32 ppos = 0, lastp = -1; // курсор на начало символа, с которого будет осуществлять происк
-
-   // метку #@
-      bool chg = false; // есть изменения текста?
-      for (qint32 fnd = istr.indexOf("#@", pos); // поиск первого примера в тексте
-
-           fnd != -1 && lastp != pos; // -1 - означает, что в строке нет (больше) примеров
-           fnd = istr.indexOf("#@", pos)
-           )
-      {
-          preText.insert(preText.length(), &arStr[ppos], fnd); // копируем текст до примера
-
-          //debug
-          qDebug() << preText;
-          //end of debug
-
-          lastp = pos;
-          pos = fnd;
-//          int r = istr.indexOf('=', fnd);//если есть равенство, то пример завершен
-          int r = istr.indexOf('@', fnd);//если есть '@'
-
-          int space = istr.indexOf(' ', fnd);
-          if ((r < space || space == -1) && r != -1) // проверяем, что равно для текущего примера, а не следующего
-          {
-           //   QString exampl = "";
-          //    exampl.insert(0, &arStr[fnd + 2], r - fnd - 1);
-             // QString rez = calc(exampl);
-              QString rez = "RUB";
-
-              preText += rez;
-              pos = r + 1;
-              chg = true;
-          }
-          preText.insert(preText.length(), &arStr[pos], istr.length() - pos); // дописываем оставшийся текст
-      }
-
-      return chg;
-   }
-
-   QString ParseText::calc(QString example)
-   {
-      QString str = example;
-      int length = str.length() - 1; // без раввно
-      QString operations = "+-*/";
-      int amount_oper = 0;
-      qint32 posoper[10] = {0}; // пусть программа может обработать 10
-                                //арифметических операций в примере
-
-
-      struct LogiExampl{
-          qint32 a, b; // аргументы
-          unsigned char idOpera; //номер операции
-          qint32 *la, *lb; // указатель на результат
-          LogiExampl(){la = nullptr, lb = la;}
-      };
-      LogiExampl logicRes[10];//на десать операций
-
-      for (quint8 i = 1; i < 9; i++)
-      {
-          logicRes[i].la = &logicRes[i-1].b;
-          logicRes[i].lb = &logicRes[i+1].a;
-      }
-
-      logicRes[0].lb = &logicRes[1].a;
-      logicRes[9].la = &logicRes[8].b;
-
-      QString number = "";
-      bool muldiv = false; // наличие умножения и(или) деления
-      for (quint8 i = 0; i < length; i++)
-      {
-          if (operations.indexOf(example[i]) != -1)
-          {
-              posoper[amount_oper] = i;
-              logicRes[amount_oper].a = number.toInt();
-              logicRes[amount_oper].idOpera = operations.indexOf(example[i]); // запоминаем код арифмeтической операции
-              if (logicRes[amount_oper].idOpera > 1) muldiv = true;
-              number.clear();
-              if (!(amount_oper - 1) & 0x80000000) // проверяем, что есть предыдущая операция
-              {
-                  logicRes[amount_oper - 1].b = logicRes[amount_oper].a;
-              }
-              amount_oper++;
-          } else number += example[i];
-      }
-
-      logicRes[amount_oper - 1].b = number.toInt();
-      qint32 rez = 0;
-      if (muldiv) // сначало умножения и делания, если они есть
-      {
-           for (quint8 i = 0; i < amount_oper; i++)
-           {
-               if (logicRes[i].idOpera > 1)
-               {
-                   if (logicRes[i].idOpera == 2)rez = logicRes[i].a * logicRes[i].b;
-                   if (logicRes[i].idOpera == 3)rez = logicRes[i].a / logicRes[i].b;
-                   logicRes[i].idOpera = 0xFF; // чтобы не делать повторно, когда перейдем к сложению/вычитанию
-                   if (logicRes[i].la) *logicRes[i].la = rez;
-                   if (logicRes[i].lb) *logicRes[i].lb = rez;
-                   for (quint8 j = i - 1; j != 0xFF; j--)
-                   {
-                       logicRes[j].b = rez;
-                       logicRes[j].lb = logicRes[i].lb;
-                   }
-               }
-           }
-      }
-      //а затем сложение и  вычитание
-      for (quint8 i = 0; i < amount_oper; i++)
-      {
-          if (logicRes[i].idOpera == 0) rez = logicRes[i].a + logicRes[i].b;
-          if (logicRes[i].idOpera == 1) rez = logicRes[i].a - logicRes[i].b;
-          logicRes[i].idOpera = 0xFF;
-          if (logicRes[i].la) *logicRes[i].la = rez;
-          if (logicRes[i].lb) *logicRes[i].lb = rez;
-      }
-      return str + QString::number(rez); // добавляем к строке результат
-   }
-
-   QString ParseText::getText()
-   {
-      text = preText;
       return  text;
    }
