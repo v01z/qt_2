@@ -16,7 +16,7 @@ class ParseText
 public:
     ParseText();
     bool findAndReplace(QString);
-    QString getText()const;
+    const QString &getText()const;
 private:
     QString text;
 

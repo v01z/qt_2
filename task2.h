@@ -20,6 +20,7 @@ private slots:
 
 private:
     Ui::task2 *ui;
+
 };
 
 #endif // TASK2_H

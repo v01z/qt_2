@@ -23,7 +23,7 @@ bool ParseText::findAndReplace(QString istr)
     return ret_val;
 }
 
-QString ParseText::getText() const
+const QString &ParseText::getText() const
    {
       return  text;
    }
