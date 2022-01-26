@@ -25,6 +25,10 @@ private slots:
 
     void on_btnDown_clicked();
 
+    void on_btnAdd_clicked();
+
+    void on_btnDel_clicked();
+
 private:
     Ui::task2 *ui;
     QStandardItemModel *model;

@@ -1,8 +1,9 @@
 #include "task2.h"
 #include "ui_task2.h"
+#include "codinglang.h"
 #include <QMessageBox>
 #include <QInputDialog>
-#include <QDebug>
+#include <QFileDialog>
 
 const QString DATA_PATH { "../qt_2/data/" };
 
@@ -45,17 +46,16 @@ void task2::on_btnChangeTxt_clicked()
 {
 
     QModelIndex indx { ui->listView->currentIndex() };
-//    model->dataChanged();
-    QStandardItem *itm { model->itemFromIndex(indx) };
-    /*
-    if (!itm)
-    {
-       QMessageBox::warning(this, "Smth is wrong.",
-            "ListView's item should be selected.");
-    }
-    */
 
-//    qDebug() << itm->text();
+    if (!indx.isValid())
+    {
+         QMessageBox::warning(this, "Wrong way.",
+            "There is no item to change.");
+        return;
+
+    }
+
+    QStandardItem *itm { model->itemFromIndex(indx) };
 
     bool ok { false };
     QString newStr { QInputDialog::getText(this, "Changing text.",
@@ -72,13 +72,14 @@ void task2::on_btnChangeTxt_clicked()
 void task2::on_btnUp_clicked()
 {
 
-    std::pair <QIcon, QString> temp;
+    CodingLang temp;
 
     QModelIndex indx { ui->listView->currentIndex() };
     QStandardItem *itm { model->itemFromIndex(indx) };
 
-    temp.first = itm->icon();
-    temp.second = itm->text();
+    temp.setIcon(itm->icon());
+    temp.setName(itm->text());
+
 
 
     QModelIndex indx_prev = ui->listView->model()->index(indx.row() -1, 0);
@@ -95,8 +96,8 @@ void task2::on_btnUp_clicked()
     itm->setIcon (itm_prev->icon());
     itm->setText(itm_prev->text());
 
-    itm_prev->setIcon(temp.first);
-    itm_prev->setText(temp.second);
+    itm_prev->setIcon(temp.getIcon());
+    itm_prev->setText(temp.getName());
 
     ui->listView->setCurrentIndex(indx_prev);
 
@@ -105,13 +106,14 @@ void task2::on_btnUp_clicked()
 
 void task2::on_btnDown_clicked()
 {
-    std::pair <QIcon, QString> temp;
+
+    CodingLang temp;
 
     QModelIndex indx { ui->listView->currentIndex() };
     QStandardItem *itm { model->itemFromIndex(indx) };
 
-    temp.first = itm->icon();
-    temp.second = itm->text();
+    temp.setIcon(itm->icon());
+    temp.setName(itm->text());
 
 
     QModelIndex indx_next = ui->listView->model()->index(indx.row() + 1, 0);
@@ -128,10 +130,46 @@ void task2::on_btnDown_clicked()
     itm->setIcon (itm_next->icon());
     itm->setText(itm_next->text());
 
-    itm_next->setIcon(temp.first);
-    itm_next->setText(temp.second);
+    itm_next->setIcon(temp.getIcon());
+    itm_next->setText(temp.getName());
 
     ui->listView->setCurrentIndex(indx_next);
+
+}
+
+
+void task2::on_btnAdd_clicked()
+{
+
+    CodingLang newLang;
+    bool ok { false };
+
+    newLang.setName(QInputDialog::getText(this, "Changing text.",
+        "Change this text if you want:", QLineEdit::Normal, "", &ok));
+
+    if (ok && !newLang.getName().isEmpty())
+    {
+        newLang.setIcon(QIcon(QFileDialog::getOpenFileName(this, "Choosing image.", "",
+            "Address Book (*.png);;All Files (*)")));
+
+        if (ok && !newLang.getIcon().isNull())
+            model->appendRow(new QStandardItem(newLang.getIcon(), newLang.getName()));
+    }
+}
+
+
+void task2::on_btnDel_clicked()
+{
+    if (model->rowCount() < 1)
+    {
+         QMessageBox::warning(this, "U doing wrong.",
+            "There is no item to delete.");
+        return;
+
+    }
+    QModelIndex indx { ui->listView->currentIndex() };
+    QStandardItem *itm { model->itemFromIndex(indx) };
+    model->removeRow(itm->row());
 
 }
 

@@ -10,11 +10,14 @@ class CodingLang
         QString name;
         QIcon icon;
     public:
-     //   CodingLang();
+        CodingLang();
         CodingLang(const QString&, const QIcon&);
 
         const QString &getName() const;
         const QIcon &getIcon() const;
+
+        void setName(const QString&);
+        void setIcon(const QIcon&);
 
 };
 
