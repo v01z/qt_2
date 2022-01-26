@@ -28,10 +28,16 @@ void task1::on_btnClose_clicked()
 void task1::on_plainTextEdit_textChanged()
 {
    QString str = ui->plainTextEdit->toPlainText(); // получаем текст виджета
+   /*
    if (parseText->change(str))                     // были ли примеры
    {
        ui->plainTextEdit->setPlainText(parseText->getText()); // заменяем текст примеры с результатами
    }
+   */
+  // parseText->findAndReplace(str);
+   //ui->plainTextEdit->setPlainText(parseText->getText());
+   if (parseText->findAndReplace(str))
+       ui->plainTextEdit->setPlainText(parseText->getText());
 }
 
 

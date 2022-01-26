@@ -3,11 +3,19 @@
 
 #include <QString>
 
+const std::pair <const std::string, const std::string> specSymbols [] =
+{
+    { "#@RUB@", "₽" },
+    { "#@EUR@", "€" },
+    { "#@ART@", "©" },
+    { "#@PRML@", "‰" }
+};
 
 class ParseText
 {
 public:
     ParseText();
+    bool findAndReplace(QString);
     bool change(QString);
     QString calc(QString);
     QString getText();

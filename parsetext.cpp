@@ -1,5 +1,6 @@
 #include "parsetext.h"
 #include <QDebug>
+#include <boost/algorithm/string/replace.hpp>
 
 #define MIN(a, b) (a < b) ? a : b
 
@@ -47,6 +48,28 @@ const std::string colorize_it(const std::string &str){
 */
 
 ParseText::ParseText(): text{""}, preText{""}, pos{} {}
+
+bool ParseText::findAndReplace(QString istr)
+{
+    bool ret_val { false };
+    std::string tempStr { istr.toStdString() };
+    //std::string tempStr { qPrintable(istr) };
+
+    if (tempStr.find("#@") != std::string::npos)
+        ret_val = true;
+
+    for (size_t i{}; i < 4; ++i) // 4 - size of specSymbols[]
+        {
+            boost::algorithm::replace_all(tempStr, specSymbols[i].first,
+                specSymbols[i].second);
+        }
+
+    preText = QString::fromStdString(tempStr);
+    qDebug() << preText;
+
+    return ret_val;
+
+}
 
 bool ParseText::change(QString istr)
 {
