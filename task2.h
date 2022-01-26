@@ -2,6 +2,7 @@
 #define TASK2_H
 
 #include <QDialog>
+#include <QStandardItemModel>
 
 namespace Ui {
 class task2;
@@ -20,6 +21,7 @@ private slots:
 
 private:
     Ui::task2 *ui;
+    QStandardItemModel *model;
 
 };
 

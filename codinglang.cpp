@@ -1,6 +1,6 @@
 #include "codinglang.h"
 
-CodingLang::CodingLang(): name { "" }, icon{} {}
+//CodingLang::CodingLang(): name { "" }, icon{} {}
 
 CodingLang::CodingLang(const QString &name, const QIcon &icon):
     name { name }, icon { icon } {}
