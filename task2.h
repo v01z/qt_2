@@ -21,6 +21,10 @@ private slots:
 
     void on_btnChangeTxt_clicked();
 
+    void on_btnUp_clicked();
+
+    void on_btnDown_clicked();
+
 private:
     Ui::task2 *ui;
     QStandardItemModel *model;
