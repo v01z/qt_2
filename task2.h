@@ -19,6 +19,8 @@ public:
 private slots:
     void on_btnClose_clicked();
 
+    void on_btnChangeTxt_clicked();
+
 private:
     Ui::task2 *ui;
     QStandardItemModel *model;

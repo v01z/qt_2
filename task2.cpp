@@ -1,6 +1,8 @@
 #include "task2.h"
 #include "ui_task2.h"
 
+const QString DATA_PATH { "../qt_2/data/" };
+
 task2::task2(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::task2)
@@ -11,13 +13,12 @@ task2::task2(QWidget *parent) :
 
     ui->listView->setModel(model);
 
-    model->appendRow(new QStandardItem(QIcon("../qt_2/data/cpp.png"), "C++"));
-    model->appendRow(new QStandardItem(QIcon("../qt_2/data/python.png"), "Python"));
-    model->appendRow(new QStandardItem(QIcon("../qt_2/data/java.png"), "Java"));
-    model->appendRow(new QStandardItem(QIcon("../qt_2/data/csharp.png"), "C#"));
-    model->appendRow(new QStandardItem(QIcon("../qt_2/data/php.png"), "PHP"));
-    model->appendRow(new QStandardItem(QIcon("../qt_2/data/js.png"), "JavaScript"));
-
+    model->appendRow(new QStandardItem(QIcon(DATA_PATH + "cpp.png"), "C++"));
+    model->appendRow(new QStandardItem(QIcon(DATA_PATH + "python.png"), "Python"));
+    model->appendRow(new QStandardItem(QIcon(DATA_PATH + "java.png"), "Java"));
+    model->appendRow(new QStandardItem(QIcon(DATA_PATH + "csharp.png"), "C#"));
+    model->appendRow(new QStandardItem(QIcon(DATA_PATH + "php.png"), "PHP"));
+    model->appendRow(new QStandardItem(QIcon(DATA_PATH + "js.png"), "JavaScript"));
 
 }
 
@@ -34,5 +35,11 @@ task2::~task2()
 void task2::on_btnClose_clicked()
 {
    close();
+}
+
+
+void task2::on_btnChangeTxt_clicked()
+{
+//   if(ui->listView->item)selected
 }
 
