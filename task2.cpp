@@ -82,7 +82,7 @@ void task2::on_btnUp_clicked()
 
 
 
-    QModelIndex indx_prev = ui->listView->model()->index(indx.row() -1, 0);
+    QModelIndex indx_prev = ui->listView->model()->index(indx.row() - 1, 0);
 
     if (!indx_prev.isValid())
     {
@@ -152,7 +152,7 @@ void task2::on_btnAdd_clicked()
         newLang.setIcon(QIcon(QFileDialog::getOpenFileName(this, "Choosing image.", "",
             "Address Book (*.png);;All Files (*)")));
 
-        if (ok && !newLang.getIcon().isNull())
+        if (!newLang.getIcon().isNull())
             model->appendRow(new QStandardItem(newLang.getIcon(), newLang.getName()));
     }
 }
@@ -167,8 +167,10 @@ void task2::on_btnDel_clicked()
         return;
 
     }
+
     QModelIndex indx { ui->listView->currentIndex() };
     QStandardItem *itm { model->itemFromIndex(indx) };
+
     model->removeRow(itm->row());
 
 }
