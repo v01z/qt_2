@@ -115,6 +115,22 @@
      <string>Delete</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="cbxViewModeSwitcher">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>250</y>
+      <width>94</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Switch view mode</string>
+    </property>
+    <property name="text">
+     <string>Icon mode</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QPushButton" name="btnClose">
    <property name="geometry">

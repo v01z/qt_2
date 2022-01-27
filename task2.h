@@ -29,6 +29,8 @@ private slots:
 
     void on_btnDel_clicked();
 
+    void on_cbxViewModeSwitcher_clicked();
+
 private:
     Ui::task2 *ui;
     QStandardItemModel *model;

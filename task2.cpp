@@ -175,3 +175,12 @@ void task2::on_btnDel_clicked()
 
 }
 
+
+void task2::on_cbxViewModeSwitcher_clicked()
+{
+   if (ui->cbxViewModeSwitcher->isChecked())
+       ui->listView->setViewMode(QListView::IconMode);
+   else
+       ui->listView->setViewMode(QListView::ListMode);
+}
+
