@@ -5,6 +5,8 @@
 #include <QInputDialog>
 #include <QFileDialog>
 
+//В зависимости от настроек IDE относительные пути для
+//исполняемого файла могут отличаться
 const QString DATA_PATH { "../qt_2/data/" };
 
 task2::task2(QWidget *parent) :
@@ -12,6 +14,7 @@ task2::task2(QWidget *parent) :
     ui(new Ui::task2)
 {
     ui->setupUi(this);
+
     model = new QStandardItemModel(this);
     if (!model) close();
 
@@ -29,6 +32,7 @@ task2::task2(QWidget *parent) :
 task2::~task2()
 {
     if (model) {
+        model->clear();
         delete model;
         model = nullptr;
     }
